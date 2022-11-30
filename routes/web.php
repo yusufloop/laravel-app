@@ -36,17 +36,23 @@ use Barryvdh\Debugbar\Facades\Debugbar as FacadesDebugbar;
 
 // GET 
 Route::get('/blog', [PostController::class, 'index']);
-Route::get('/blog/1', [PostController::class, 'show']);
+// Route::get('/blog/1', [PostController::class, 'show']);// static id 
+//Route::get('/blog/{id}', [PostController::class, 'show'])->whereNumber('id'); //chaining method - where parameter id and regex
+//Route::get('/blog/{name}', [PostController::class, 'show'])
+//->whereAlpha('name');//get name as string parameter 
+Route::get('/blog/{id}/{name}', [PostController::class, 'show'])
+->whereNumber('id')
+->whereAlpha('name');
 
 // POST
 Route::get('/blog/create', [PostController::class, 'create']);
 Route::post('/blog/', [PostController::class, 'store']);
 
 // PUT OR PATCH
-Route::get('/blog/edit/1', [PostController::class, 'edit']);
-Route::patch('/blog/1', [PostController::class, 'update']);
+Route::get('/blog/edit/{id}', [PostController::class, 'edit']);
+Route::patch('/blog/{id}', [PostController::class, 'update']);
 
-Route::delete('/blog/1', [PostController::class, 'destroy']);
+Route::delete('/blog/{id}', [PostController::class, 'destroy']);
 
 // Multiple HTTP VERB
 // Route::match(['GET','POST'],'/blog',[PostController::class, 'index']);//buat bagi match any controller yang digunakan 
