@@ -3,7 +3,9 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Post;
 use Illuminate\Database\Seeder;
+use Database\Seeders\PostsTableSeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -20,5 +22,8 @@ class DatabaseSeeder extends Seeder
         //     'name' => 'Test User',
         //     'email' => 'test@example.com',
         // ]);
+
+        // $this->call(PostsTableSeeder::class);//$this tu global method
+        Post::factory(100)->create();//100 row factory chain to create method
     }
 }

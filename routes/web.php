@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\FallbackController;
 use App\Http\Controllers\HomeController;
 use DebugBar\DebugBar;
 use Faker\Calculator\Ean;
@@ -35,24 +36,39 @@ use Barryvdh\Debugbar\Facades\Debugbar as FacadesDebugbar;
 // Route:: resource('blog', PostController::class);
 
 // GET 
-Route::get('/blog', [PostController::class, 'index']);
+// Route::get('/blog', [PostController::class, 'index'])->name('blog.index');
+// Route::get('/blog/{id}', [PostController::class, 'show'])->name('blog.show');// static id 
+
 // Route::get('/blog/1', [PostController::class, 'show']);// static id 
-//Route::get('/blog/{id}', [PostController::class, 'show'])->whereNumber('id'); //chaining method - where parameter id and regex
+// Route::get('/blog/{id}', [PostController::class, 'show'])->whereNumber('id'); //chaining method - where parameter id and regex
 //Route::get('/blog/{name}', [PostController::class, 'show'])
 //->whereAlpha('name');//get name as string parameter 
-Route::get('/blog/{id}/{name}', [PostController::class, 'show'])
-->whereNumber('id')
-->whereAlpha('name');
+// Route::get('/blog/{id}/{name}', [PostController::class, 'show'])
+// ->whereNumber('id')
+// ->whereAlpha('name');
 
 // POST
-Route::get('/blog/create', [PostController::class, 'create']);
-Route::post('/blog/', [PostController::class, 'store']);
+// Route::get('/blog/create', [PostController::class, 'create'])->name('blog.create');
+// Route::post('/blog', [PostController::class, 'store'])->name('blog.store');
 
 // PUT OR PATCH
-Route::get('/blog/edit/{id}', [PostController::class, 'edit']);
-Route::patch('/blog/{id}', [PostController::class, 'update']);
+// Route::get('/blog/edit/{id}', [PostController::class, 'edit'])->name('blog.edit');
+// Route::patch('/blog/{id}', [PostController::class, 'update'])->name('blog.update');
 
-Route::delete('/blog/{id}', [PostController::class, 'destroy']);
+// DELETE
+// Route::delete('/blog/{id}', [PostController::class, 'destroy'])->name('blog.destroy');
+
+//PREFIX EXAMPLE
+Route::prefix('/blog')->group(function(){
+    Route::get('/', [PostController::class, 'index'])->name('blog.index');
+    Route::get('/{id}', [PostController::class, 'show'])->name('blog.show');
+    Route::get('/create', [PostController::class, 'create'])->name('blog.create');
+    Route::post('', [PostController::class, 'store'])->name('blog.store');
+    Route::get('/edit/{id}', [PostController::class, 'edit'])->name('blog.edit');
+    Route::patch('/{id}', [PostController::class, 'update'])->name('blog.update');
+    Route::delete('/{id}', [PostController::class, 'destroy'])->name('blog.destroy');
+
+});
 
 // Multiple HTTP VERB
 // Route::match(['GET','POST'],'/blog',[PostController::class, 'index']);//buat bagi match any controller yang digunakan 
@@ -63,3 +79,6 @@ Route::delete('/blog/{id}', [PostController::class, 'destroy']);
 
 //Route for invoke method
 Route::get('/',HomeController::class);
+
+//FALLBACK ROUTE
+Route::fallback(FallbackController::class);
