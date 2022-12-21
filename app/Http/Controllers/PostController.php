@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -14,6 +15,7 @@ class PostController extends Controller
      */
     public function index()
     {
+        // ---------------------------------------------Query builder------------------------------------------------------------------------------
         //$posts = DB::statement('SELECT * FROM posts');//SQL injection code. DB facade. select from posts table. return true if okay.
         //$posts = DB::select('SELECT * FROM posts WHERE id = ?', [1]);//array , not direct id 1.
         //$posts = DB::select('SELECT * FROM posts WHERE id = :id', ['id' => 1]);//array , by var id ,to array id 1.
@@ -70,10 +72,31 @@ class PostController extends Controller
 
         //return view('blog.index')->with('posts', $posts); //call blade blog.index with macm where sikit. posts string and var $posts
         //return view('blog.index', compact('posts'));
-        return view('blog.index',[
-            //'posts' => $posts //first method, ambik $post yang di comment
-            'posts' => DB::table('posts')->get() //second method
-        ]);
+        // return view('blog.index',[
+        //     //'posts' => $posts //first method, ambik $post yang di comment
+        //     'posts' => DB::table('posts')->get() //second method
+        // ]);
+        // ---------------------------------------------Query builder------------------------------------------------------------------------------
+
+        //$posts = Post::orderBy('id', 'desc')->take(10)->get(); // order id descending and take 10 row
+        //$posts = Post::get();// retrieve all data from post. get() boleh chaining, boleh juga buat get() method
+        //$posts = Post::where('min_to_read', 2)->get(); //ambil column min_to_read dimana data ialah 2
+        // $posts = Post::where('min_to_read', '!=', 2)->get(); //ambil column min_to_read not equal to 2
+
+        // dd($posts);
+
+        // Post::chunk(25, function($posts){
+        //     foreach($posts as $post){
+        //         echo $post->title . '<br>';
+        //     }
+        // });//cara dapatkan data dari controller guna method chunk
+        
+        //$posts = Post::get()->count();//kira data by count dalam post 
+        $posts = Post::sum();
+        
+        dd($posts);
+
+        return view('blog.index');
     }
 
     /**
