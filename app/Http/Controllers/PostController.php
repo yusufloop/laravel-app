@@ -92,11 +92,15 @@ class PostController extends Controller
         // });//cara dapatkan data dari controller guna method chunk
         
         //$posts = Post::get()->count();//kira data by count dalam post 
-        $posts = Post::sum();
+        //$posts = Post::sum('min_to_read');//kira sum data dalam field min_to_read
+       // $posts = Post::avg('min_to_read');
+    //    $posts = Post::orderBy('updated_at', 'desc')->get(); //buat data urutam ,menurun
         
-        dd($posts);
+    //     dd($posts);
 
-        return view('blog.index');
+        return view('blog.index', [
+            'posts' => Post::orderBy('updated_at', 'desc')->get()
+        ]);
     }
 
     /**
@@ -128,7 +132,12 @@ class PostController extends Controller
      */
     public function show($id)
     {
-        return $id;
+        //$posts = Post::find($id);//show only 1 data by id on url eg: blog/150 , show data on data 150 
+        //$posts = Post::findOrFail($id);
+        
+        return view('blog.show', [
+            'post' => Post::findOrFail($id)
+        ]);
     }
 
     /**

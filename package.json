@@ -22,7 +22,9 @@
   "directories": {
     "test": "tests"
   },
-  "dependencies": {},
+  "dependencies": {
+    "gulp": "^4.0.2"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/yusufloop/laravel-app.git"
